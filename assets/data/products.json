@@ -1,3 +1,50 @@
-{
-  "products": []
-}
+[
+  {
+    "id": 1,
+    "name": "Classic Gift Box",
+    "description": "A stylish gift box for birthdays and special occasions.",
+    "price": 24.99,
+    "imageUrl": "assets/images/gift_box.png",
+    "category": "Classic"
+  },
+  {
+    "id": 2,
+    "name": "Smart Watch",
+    "description": "A modern tech gift for daily use.",
+    "price": 89.99,
+    "imageUrl": "assets/images/smart_watch.png",
+    "category": "Tech"
+  },
+  {
+    "id": 3,
+    "name": "Teddy Bear",
+    "description": "A soft and cute toy gift.",
+    "price": 19.99,
+    "imageUrl": "assets/images/teddy_bear.png",
+    "category": "Toys"
+  },
+  {
+    "id": 4,
+    "name": "Coffee Mug",
+    "description": "A simple mug for coffee lovers.",
+    "price": 12.99,
+    "imageUrl": "assets/images/coffee_mug.png",
+    "category": "Home"
+  },
+  {
+    "id": 5,
+    "name": "Notebook Set",
+    "description": "A useful stationery gift set.",
+    "price": 15.99,
+    "imageUrl": "assets/images/notebook_set.png",
+    "category": "Stationery"
+  },
+  {
+    "id": 6,
+    "name": "Wireless Headphones",
+    "description": "A practical tech gift for music lovers.",
+    "price": 49.99,
+    "imageUrl": "assets/images/headphones.png",
+    "category": "Tech"
+  }
+]
