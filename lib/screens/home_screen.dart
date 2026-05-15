@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../data/product_data.dart';
 import '../widgets/product_card.dart';
+import 'product_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -128,7 +128,16 @@ class HomeScreen extends StatelessWidget {
 
                     return ProductCard(
                       product: product,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(
+                              product: product,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
