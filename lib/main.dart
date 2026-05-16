@@ -40,6 +40,9 @@ class _GiftStoreAppState extends State<GiftStoreApp> {
     return MaterialApp(
       title: 'Gift Store',
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        overscroll: false,
+      ),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

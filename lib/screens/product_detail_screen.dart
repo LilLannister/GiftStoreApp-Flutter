@@ -18,110 +18,134 @@ class ProductDetailScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
 
       appBar: AppBar(
-        title: const Text('Product Details'),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple.shade100,
+        title: const Text(
+          'Product Details',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 70,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-          children: [
+            children: [
 
-            Container(
-              height: 250,
-              width: double.infinity,
+              Container(
+                height: 250,
+                width: double.infinity,
 
-              decoration: BoxDecoration(
-                color: Colors.deepPurple.shade50,
-                borderRadius: BorderRadius.circular(24),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade50,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+
+                child: const Icon(
+                  Icons.card_giftcard,
+                  size: 100,
+                  color: Colors.deepPurple,
+                ),
               ),
 
-              child: const Icon(
-                Icons.card_giftcard,
-                size: 100,
-                color: Colors.deepPurple,
+              const SizedBox(height: 24),
+
+              Text(
+                product.category,
+
+                style: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 14,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 24),
+              const SizedBox(height: 8),
 
-            Text(
-              product.category,
+              Text(
+                product.name,
 
-              style: TextStyle(
-                color: Colors.grey.shade700,
-                fontSize: 14,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 8),
+              const SizedBox(height: 16),
 
-            Text(
-              product.name,
+              Text(
+                '\$${product.price.toStringAsFixed(2)}',
 
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+                style: const TextStyle(
+                  color: Colors.deepPurple,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-            Text(
-              '\$${product.price.toStringAsFixed(2)}',
+              const Text(
+                'Description',
 
-              style: const TextStyle(
-                color: Colors.deepPurple,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 24),
+              const SizedBox(height: 12),
 
-            const Text(
-              'Description',
+              Text(
+                product.description,
 
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                style: TextStyle(
+                  color: Colors.grey.shade800,
+                  fontSize: 16,
+                  height: 1.5,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 12),
-
-            Text(
-              product.description,
-
-              style: TextStyle(
-                color: Colors.grey.shade800,
-                fontSize: 16,
-                height: 1.5,
-              ),
-            ),
-
-            const SizedBox(height: 24),
-            
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  onAddToCart(product);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${product.name} added to cart'),
+              const SizedBox(height: 24),
+              
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  );
-                },
-                icon: const Icon(Icons.shopping_cart_outlined),
-                label: const Text('Add to Cart'),
+                  ),
+                  onPressed: () {
+                    onAddToCart(product);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.deepPurple,
+                        content: Text(
+                          '${product.name} added to cart',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.shopping_cart_outlined),
+                  label: const Text('Add to Cart'),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
