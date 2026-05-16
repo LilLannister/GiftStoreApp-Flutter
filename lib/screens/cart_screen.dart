@@ -4,10 +4,14 @@ import '../models/product.dart';
 
 class CartScreen extends StatelessWidget {
   final List<Product> cartItems;
+  final Function(Product) onRemoveFromCart;
+  final VoidCallback onClearCart;
 
   const CartScreen({
     super.key,
     required this.cartItems,
+    required this.onRemoveFromCart,
+    required this.onClearCart,
   });
 
   @override
@@ -93,12 +97,26 @@ class CartScreen extends StatelessWidget {
                             ),
                             title: Text(product.name),
                             subtitle: Text(product.category),
-                            trailing: Text(
-                              '\$${product.price.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                color: Colors.deepPurple,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    onRemoveFromCart(product);
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -126,7 +144,18 @@ class CartScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 16),
+
+                    if (cartItems.isNotEmpty)
+                      TextButton(
+                        onPressed: onClearCart,
+                        child: const Text(
+                          'Clear Cart',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+
                   SizedBox(
                     width: double.infinity,
                     height: 52,

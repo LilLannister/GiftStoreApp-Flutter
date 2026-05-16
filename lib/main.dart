@@ -23,6 +23,18 @@ class _GiftStoreAppState extends State<GiftStoreApp> {
     });
   }
 
+  void removeFromCart(Product product) {
+  setState(() {
+    cartItems.remove(product);
+    });
+  }
+
+  void clearCart() {
+    setState(() {
+      cartItems.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,6 +47,8 @@ class _GiftStoreAppState extends State<GiftStoreApp> {
       home: HomeScreen(
         cartItems: cartItems,
         onAddToCart: addToCart,
+        onRemoveFromCart: removeFromCart,
+        onClearCart: clearCart,
       ),
     );
   }
