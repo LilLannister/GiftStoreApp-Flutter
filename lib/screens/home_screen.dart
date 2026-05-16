@@ -9,11 +9,15 @@ import '../models/product.dart';
 class HomeScreen extends StatelessWidget {
   final List<Product> cartItems;
   final Function(Product) onAddToCart;
+  final Function(Product) onRemoveFromCart;
+  final VoidCallback onClearCart;
 
   const HomeScreen({
     super.key,
     required this.cartItems,
     required this.onAddToCart,
+    required this.onClearCart,
+    required this.onRemoveFromCart,
   });
 
   @override
@@ -42,6 +46,8 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => CartScreen(
                     cartItems: cartItems,
+                    onRemoveFromCart: onRemoveFromCart,
+                    onClearCart: onClearCart,
                   ),
                 ),
               );
