@@ -6,7 +6,7 @@ import 'product_detail_screen.dart';
 import 'cart_screen.dart';
 import '../models/product.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final List<Product> cartItems;
   final Function(Product) onAddToCart;
   final Function(Product) onRemoveFromCart;
@@ -21,8 +21,29 @@ class HomeScreen extends StatelessWidget {
   });
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>{
+
+  final TextEditingController searchController = TextEditingController();
+
+  String selectedCategory = 'All';
+  String searchText = '';
+
+  @override
   Widget build(BuildContext context) {
     final products = ProductData.getProducts();
+
+    final filteredProducts = products.where((product) {
+    final matchesCategory =
+        selectedCategory == 'All' || product.category == selectedCategory;
+
+    final matchesSearch = product.name.toLowerCase().contains(
+          searchText.toLowerCase(),
+        );
+    return matchesCategory && matchesSearch;
+    }).toList();
 
     final categories = [
       'All',
@@ -45,9 +66,9 @@ class HomeScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CartScreen(
-                    cartItems: cartItems,
-                    onRemoveFromCart: onRemoveFromCart,
-                    onClearCart: onClearCart,
+                    cartItems: widget.cartItems,
+                    onRemoveFromCart: widget.onRemoveFromCart,
+                    onClearCart: widget.onClearCart,
                   ),
                 ),
               );
@@ -56,7 +77,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const Icon(Icons.shopping_cart_outlined),
 
-                if (cartItems.isNotEmpty)
+                if (widget.cartItems.isNotEmpty)
                   Positioned(
                     right: 0,
                     top: 0,
@@ -71,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                         minHeight: 18,
                       ),
                       child: Text(
-                        '${cartItems.length}',
+                        '${widget.cartItems.length}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -122,6 +143,25 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+              TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search gifts...',
+                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 24),
               const Text(
                 'Categories',
                 style: TextStyle(
@@ -139,20 +179,31 @@ class HomeScreen extends StatelessWidget {
                     return const SizedBox(width: 10);
                   },
                   itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.deepPurple.shade100,
+                    final category = categories[index];
+                    final isSelected = category == selectedCategory;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedCategory = category;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.deepPurple : Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.deepPurple.shade100,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        categories[index],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
+                        child: Text(
+                          category,
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     );
@@ -170,7 +221,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Expanded(
                 child: GridView.builder(
-                  itemCount: products.length,
+                  itemCount: filteredProducts.length,
                   gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -179,7 +230,7 @@ class HomeScreen extends StatelessWidget {
                     childAspectRatio: 0.72,
                   ),
                   itemBuilder: (context, index) {
-                    final product = products[index];
+                    final product = filteredProducts[index];
 
                     return ProductCard(
                       product: product,
@@ -189,7 +240,7 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => ProductDetailScreen(
                               product: product,
-                              onAddToCart: onAddToCart,
+                              onAddToCart: widget.onAddToCart,
                             ),
                           ),
                         );
