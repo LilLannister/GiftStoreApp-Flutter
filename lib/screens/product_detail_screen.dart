@@ -4,10 +4,12 @@ import '../models/product.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
+  final Function(Product) onAddToCart;
 
   const ProductDetailScreen({
     super.key,
     required this.product,
+    required this.onAddToCart,
   });
 
   @override
@@ -107,7 +109,14 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  onAddToCart(product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${product.name} added to cart'),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.shopping_cart_outlined),
                 label: const Text('Add to Cart'),
               ),

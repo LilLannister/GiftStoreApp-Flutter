@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+
 import '../data/product_data.dart';
 import '../widgets/product_card.dart';
 import 'product_detail_screen.dart';
 import 'cart_screen.dart';
+import '../models/product.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final List<Product> cartItems;
+  final Function(Product) onAddToCart;
+
+  const HomeScreen({
+    super.key,
+    required this.cartItems,
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +40,43 @@ class HomeScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CartScreen(),
+                  builder: (context) => CartScreen(
+                    cartItems: cartItems,
+                  ),
                 ),
               );
             },
-            icon: const Icon(Icons.shopping_cart_outlined),
+            icon: Stack(
+              children: [
+                const Icon(Icons.shopping_cart_outlined),
+
+                if (cartItems.isNotEmpty)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
+                      child: Text(
+                        '${cartItems.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
@@ -142,6 +183,7 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => ProductDetailScreen(
                               product: product,
+                              onAddToCart: onAddToCart,
                             ),
                           ),
                         );

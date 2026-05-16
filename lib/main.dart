@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
+
+import 'models/product.dart';
 import 'screens/home_screen.dart';
 
-void main(){
+void main() {
   runApp(const GiftStoreApp());
 }
 
-class GiftStoreApp extends StatelessWidget {
+class GiftStoreApp extends StatefulWidget {
   const GiftStoreApp({super.key});
 
-  @override 
-  Widget build(BuildContext context){
+  @override
+  State<GiftStoreApp> createState() => _GiftStoreAppState();
+}
+
+class _GiftStoreAppState extends State<GiftStoreApp> {
+  final List<Product> cartItems = [];
+
+  void addToCart(Product product) {
+    setState(() {
+      cartItems.add(product);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gift Store',
       debugShowCheckedModeBanner: false,
@@ -17,7 +32,10 @@ class GiftStoreApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(
+        cartItems: cartItems,
+        onAddToCart: addToCart,
+      ),
     );
   }
 }
