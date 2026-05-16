@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/product_data.dart';
 import '../widgets/product_card.dart';
 import 'product_detail_screen.dart';
+import 'cart_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,7 +27,14 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple.shade100,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CartScreen(),
+                ),
+              );
+            },
             icon: const Icon(Icons.shopping_cart_outlined),
           ),
         ],
