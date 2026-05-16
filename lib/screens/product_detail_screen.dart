@@ -101,6 +101,17 @@ class ProductDetailScreen extends StatelessWidget {
                 height: 1.5,
               ),
             ),
+
+            const SizedBox(height: 24),
+            
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.shopping_cart_outlined),
+                label: const Text('Add to Cart'),
+              ),
+            ),
           ],
         ),
       ),
