@@ -50,15 +50,16 @@ lib/
 
 ### Home Screen
 
-![Home Screen](screenshots/home_screen.png)
+<img src="screenshots/home_screen.png" width="280"/>
 
 ### Product Detail Screen
 
-![Product Detail Screen](screenshots/product_detail_screen.png)
+<img src="screenshots/product_detail_screen.png" width="280"/>
 
 ### Cart Screen
 
-![Cart Screen](screenshots/cart_screen.png)
+<img src="screenshots/cart_screen.png" width="280"/>
+
 
 ---
 
