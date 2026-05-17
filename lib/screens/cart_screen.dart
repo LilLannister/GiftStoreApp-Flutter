@@ -1,16 +1,204 @@
 import 'package:flutter/material.dart';
-class CartScreen extends StatelessWidget{
-  const CartScreen({super.key});
+
+import '../models/product.dart';
+
+class CartScreen extends StatelessWidget {
+  final List<Product> cartItems;
+  final Function(Product) onRemoveFromCart;
+  final VoidCallback onClearCart;
+
+  const CartScreen({
+    super.key,
+    required this.cartItems,
+    required this.onRemoveFromCart,
+    required this.onClearCart,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double totalPrice = cartItems.fold(
+      0,
+      (total, product) => total + product.price,
+    );
+
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: const Text('Cart'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Your Cart',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Review selected products',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 72,
       ),
-      body:const Center(
-        child: Text('Cart - Coming Soon'),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: cartItems.isEmpty
+            ? Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 90,
+                            color: Colors.deepPurple.shade200,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Your cart is empty',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Add products to your cart to see them here.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Checkout'),
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: cartItems.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 12);
+                      },
+                      itemBuilder: (context, index) {
+                        final product = cartItems[index];
+
+                        return Card(
+                          color: Colors.white,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.deepPurple.shade50,
+                              child: const Icon(
+                                Icons.card_giftcard,
+                                color: Colors.deepPurple,
+                              ),
+                            ),
+                            title: Text(product.name),
+                            subtitle: Text(product.category),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    onRemoveFromCart(product);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '\$${totalPrice.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Colors.deepPurple,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                    if (cartItems.isNotEmpty)
+                      TextButton(
+                        onPressed: onClearCart,
+                        child: const Text(
+                          'Clear Cart',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.deepPurple,
+                            content: Text(
+                              'Checkout is simulated in this demo app',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                      child: const Text('Checkout'),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
