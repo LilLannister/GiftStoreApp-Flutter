@@ -22,8 +22,8 @@ A modern Flutter gift store application with clean UI design, category filtering
 
 ## Technologies Used
 
-- Flutter
-- Dart
+- Flutter 3.41.9
+- Dart 3.11.5
 - Material 3
 - Stateful Widgets
 - GridView
